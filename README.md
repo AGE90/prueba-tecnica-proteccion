@@ -1,4 +1,4 @@
-# Prueba TÃ©cnica ProtecciÃ³n
+# Technical Test Protección
 
 A short description of the project.
 

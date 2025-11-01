@@ -61,36 +61,17 @@ download_kaggle() {
     print_message "$GREEN" "✅ Downloaded $description"
 }
 
-# Function to download from UCI
-download_uci() {
-    local dataset=$1
-    local output_file=$2
-    local description=$3
+# Home data dataset
+download_file \
+    "https://raw.githubusercontent.com/rashida048/Datasets/master/home_data.csv" \
+    "data/raw/home_data.csv" \
+    "Home data dataset"
 
-    print_message "$YELLOW" "📥 Downloading $description from UCI..."
-    curl -L "https://archive.ics.uci.edu/ml/machine-learning-databases/$dataset" -o "$output_file"
-    print_message "$GREEN" "✅ Downloaded $description"
-}
-
-# Example datasets (uncomment and modify as needed)
-
-# # Iris dataset
-# download_file \
-#     "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv" \
-#     "data/raw/iris.csv" \
-#     "Iris dataset"
-
-# # Titanic dataset
-# download_kaggle \
-#     "titanic" \
-#     "data/raw/titanic" \
-#     "Titanic dataset"
-
-# # Wine dataset from UCI
-# download_uci \
-#     "wine/wine.data" \
-#     "data/raw/wine.data" \
-#     "Wine dataset"
+# Sentiment analysis in Spanish tweets dataset from Kaggle
+download_kaggle \
+    "philipsanm/sentiment-analysis-in-spanish-tweets" \
+    "data/raw/" \
+    "Sentiment analysis in Spanish tweets dataset"
 
 print_message "$GREEN" "✅ Data download complete!"
 print_message "$YELLOW" "📝 Next steps:"
