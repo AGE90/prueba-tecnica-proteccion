@@ -2,93 +2,16 @@
 Model training and evaluation utilities.
 """
 
+import pickle
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union, Literal
+from typing import Any, Dict, Optional, Union
 
+import joblib
 import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-from sklearn.metrics import (
-    accuracy_score,
-    f1_score,
-    mean_squared_error,
-    precision_score,
-    r2_score,
-    recall_score
-)
-from sklearn.model_selection import cross_val_score, train_test_split
-import joblib
-import pickle
-
-
-def train_test_split_data(
-    X: pd.DataFrame,
-    y: Union[pd.Series, np.ndarray],
-    test_size: float = 0.2,
-    random_state: int = 42
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Split data into training and testing sets.
-
-    Parameters
-    ----------
-    X : pandas.DataFrame
-        Features.
-    y : pandas.Series or numpy.ndarray
-        Target variable.
-    test_size : float, optional
-        Proportion of data to use for testing (default is 0.2).
-    random_state : int, optional
-        Random seed for reproducibility (default is 42).
-
-    Returns
-    -------
-    X_train : numpy.ndarray
-        Training features.
-    X_test : numpy.ndarray
-        Testing features.
-    y_train : numpy.ndarray
-        Training target.
-    y_test : numpy.ndarray
-        Testing target.
-    """
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
-        test_size=test_size,
-        random_state=random_state
-    )
-    return X_train, X_test, y_train, y_test
-
-
-def evaluate_classification(
-    y_true: Union[pd.Series, np.ndarray],
-    y_pred: Union[pd.Series, np.ndarray],
-    average: Literal['micro', 'macro', 'samples', 'weighted', 'binary'] | None = "binary"
-) -> Dict[str, Any]:
-    """
-    Evaluate classification model performance.
-
-    Parameters
-    ----------
-    y_true : pandas.Series or numpy.ndarray
-        True labels.
-    y_pred : pandas.Series or numpy.ndarray
-        Predicted labels.
-    average : str, optional
-        Averaging strategy for multi-class metrics (default is 'weighted').
-
-    Returns
-    -------
-    metrics : dict of str to float
-        Dictionary of metric names and values: accuracy, precision, recall, f1.
-    """
-    return {
-        'accuracy': accuracy_score(y_true, y_pred),
-        'precision': precision_score(y_true, y_pred, average=average),
-        'recall': recall_score(y_true, y_pred, average=average),
-        'f1': f1_score(y_true, y_pred, average=average)
-    }
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
 def evaluate_regression(
@@ -112,44 +35,9 @@ def evaluate_regression(
     """
     return {
         'mse': mean_squared_error(y_true, y_pred),
+        'mae': mean_absolute_error(y_true, y_pred),
         'rmse': np.sqrt(mean_squared_error(y_true, y_pred)),
         'r2': r2_score(y_true, y_pred)
-    }
-
-
-def cross_validate_model(
-    model: Any,
-    X: pd.DataFrame,
-    y: Union[pd.Series, np.ndarray],
-    cv: int = 5,
-    scoring: str = 'accuracy'
-) -> Dict[str, Any]:
-    """
-    Perform cross-validation on a model.
-
-    Parameters
-    ----------
-    model : object
-        Model to evaluate.
-    X : pandas.DataFrame
-        Features.
-    y : pandas.Series or numpy.ndarray
-        Target variable.
-    cv : int, optional
-        Number of cross-validation folds (default is 5).
-    scoring : str, optional
-        Scoring metric (default is 'accuracy').
-
-    Returns
-    -------
-    results : dict of str to float
-        Dictionary of cross-validation results: mean_score, std_score, scores.
-    """
-    scores = cross_val_score(model, X, y, cv=cv, scoring=scoring)
-    return {
-        'mean_score': scores.mean(),
-        'std_score': scores.std(),
-        'scores': scores,
     }
 
 
@@ -190,9 +78,9 @@ def log_mlflow_experiment(
 
         # Log model
         if model_name:
-            mlflow.sklearn.log_model(model, model_name)
+            mlflow.sklearn.log_model(model, model_name) # type: ignore
         else:
-            mlflow.sklearn.log_model(model, "model")
+            mlflow.sklearn.log_model(model, "model") # type: ignore
 
 
 def save_model(

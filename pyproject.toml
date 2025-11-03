@@ -42,6 +42,8 @@ scikit-learn = "^1.7.2"
 joblib = "^1.5.2"
 mlflow = "^3.4.0"
 kaggle = "^1.7.4.5"
+folium = "^0.20.0"
+pingouin = "^0.5.5"
 
 
 [tool.poetry.group.viz.dependencies]

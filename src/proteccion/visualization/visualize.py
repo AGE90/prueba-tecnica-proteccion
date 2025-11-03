@@ -3,7 +3,7 @@ Visualization utilities.
 """
 
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import Literal, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,6 +16,7 @@ def plot_distribution(
     title: str,
     xlabel: str,
     bins: int = 30,
+    xlim: Optional[tuple] = None,
     figsize: tuple = (10, 6),
     save_path: Optional[Union[str, Path]] = None
 ) -> None:
@@ -32,6 +33,8 @@ def plot_distribution(
         X-axis label.
     bins : int, optional
         Number of histogram bins (default is 30).
+    xlim : tuple, optional
+        X-axis limits as (min, max) (default is None).
     figsize : tuple, optional
         Figure size (default is (10, 6)).
     save_path : str or pathlib.Path, optional
@@ -42,10 +45,13 @@ def plot_distribution(
     None
     """
     plt.figure(figsize=figsize)
-    sns.histplot(data=data, bins=bins, kde=True)
+    sns.histplot(data=data, bins=bins, kde=True) # type: ignore
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel('Frequency')
+
+    if xlim:
+        plt.xlim(xlim)
 
     if save_path:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
@@ -54,6 +60,7 @@ def plot_distribution(
 
 def plot_correlation_matrix(
     df: pd.DataFrame,
+    method: Literal["pearson", "spearman", "kendall"] = "pearson",
     title: str = 'Correlation Matrix',
     figsize: tuple = (12, 8),
     save_path: Optional[Union[str, Path]] = None
@@ -65,6 +72,8 @@ def plot_correlation_matrix(
     ----------
     df : pandas.DataFrame
         Input DataFrame.
+    method : str, optional
+        Correlation method: 'pearson', 'spearman', or 'kendall' (default is 'pearson').
     title : str, optional
         Plot title (default is 'Correlation Matrix').
     figsize : tuple, optional
@@ -77,14 +86,14 @@ def plot_correlation_matrix(
     None
     """
     plt.figure(figsize=figsize)
-    corr = df.corr()
+    corr = df.corr(method=method)
     mask = np.triu(np.ones_like(corr, dtype=bool))
     sns.heatmap(
         corr,
         mask=mask,
         annot=True,
         fmt='.2f',
-        cmap='coolwarm',
+        cmap="RdBu_r",
         center=0,
         square=True
     )
@@ -94,124 +103,3 @@ def plot_correlation_matrix(
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
     plt.show()
 
-
-def plot_time_series(
-    df: pd.DataFrame,
-    time_column: str,
-    value_column: str,
-    title: str,
-    figsize: tuple = (12, 6),
-    save_path: Optional[Union[str, Path]] = None
-) -> None:
-    """
-    Plot a time series.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input DataFrame.
-    time_column : str
-        Name of the time column.
-    value_column : str
-        Name of the value column.
-    title : str
-        Plot title.
-    figsize : tuple, optional
-        Figure size (default is (12, 6)).
-    save_path : str or pathlib.Path, optional
-        Path to save the plot (default is None).
-
-    Returns
-    -------
-    None
-    """
-    plt.figure(figsize=figsize)
-    plt.plot(df[time_column], df[value_column])
-    plt.title(title)
-    plt.xlabel('Time')
-    plt.ylabel('Value')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-
-    if save_path:
-        plt.savefig(save_path, bbox_inches='tight', dpi=300)
-    plt.show()
-
-
-def plot_boxplots(
-    df: pd.DataFrame,
-    columns: List[str],
-    title: str = 'Box Plots',
-    figsize: tuple = (12, 6),
-    save_path: Optional[Union[str, Path]] = None
-) -> None:
-    """
-    Plot box plots for multiple columns.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input DataFrame.
-    columns : list of str
-        List of columns to plot.
-    title : str, optional
-        Plot title (default is 'Box Plots').
-    figsize : tuple, optional
-        Figure size (default is (12, 6)).
-    save_path : str or pathlib.Path, optional
-        Path to save the plot (default is None).
-
-    Returns
-    -------
-    None
-    """
-    plt.figure(figsize=figsize)
-    df[columns].boxplot()
-    plt.title(title)
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-
-    if save_path:
-        plt.savefig(save_path, bbox_inches='tight', dpi=300)
-    plt.show()
-
-
-def plot_scatter_matrix(
-    df: pd.DataFrame,
-    columns: List[str],
-    title: str = 'Scatter Matrix',
-    figsize: tuple = (12, 12),
-    save_path: Optional[Union[str, Path]] = None
-) -> None:
-    """
-    Plot a scatter matrix for multiple columns.
-
-    Parameters
-    ----------
-    df : pandas.DataFrame
-        Input DataFrame.
-    columns : list of str
-        List of columns to plot.
-    title : str, optional
-        Plot title (default is 'Scatter Matrix').
-    figsize : tuple, optional
-        Figure size (default is (12, 12)).
-    save_path : str or pathlib.Path, optional
-        Path to save the plot (default is None).
-
-    Returns
-    -------
-    None
-    """
-    plt.figure(figsize=figsize)
-    pd.plotting.scatter_matrix(
-        df[columns],
-        diagonal='kde',
-        figsize=figsize
-    )
-    plt.suptitle(title)
-    plt.tight_layout()
-
-    if save_path:
-        plt.savefig(save_path, bbox_inches='tight', dpi=300)
-    plt.show()
