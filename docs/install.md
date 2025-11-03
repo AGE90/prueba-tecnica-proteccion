@@ -1,6 +1,6 @@
-# Prueba TÃ©cnica ProtecciÃ³n Installation Guide
+# Prueba Técnica Protección Installation Guide
 
-Welcome to the **Prueba TÃ©cnica ProtecciÃ³n** installation guide! This guide will walk you through setting up the environment, installing necessary dependencies, and configuring essential tools to ensure a smooth development experience.
+Welcome to the **Prueba Técnica Protección** installation guide! This guide will walk you through setting up the environment, installing necessary dependencies, and configuring essential tools to ensure a smooth development experience.
 
 ---
 
@@ -195,4 +195,4 @@ poetry run mkdocs serve
 - Use `poetry update` to update dependencies
 - Check `pyproject.toml` for all available dependency groups and their purposes
 
-You're now all set to start developing with **Prueba TÃ©cnica ProtecciÃ³n**!
+You're now all set to start developing with **Prueba Técnica Protección**!

@@ -44,6 +44,10 @@ mlflow = "^3.4.0"
 kaggle = "^1.7.4.5"
 folium = "^0.20.0"
 pingouin = "^0.5.5"
+nltk = "^3.9.2"
+transformers = {extras = ["torch"], version = "^4.57.1"}
+datasets = "^4.3.0"
+torch = "^2.9.0"
 
 
 [tool.poetry.group.viz.dependencies]

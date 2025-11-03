@@ -173,3 +173,9 @@ site/
 # Notebook exports
 *.html
 *.ipynb_export/
+
+# Mlflow
+mlruns/
+
+# Hugging Face cache and model outputs
+bert_results/
