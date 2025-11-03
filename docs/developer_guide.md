@@ -15,7 +15,7 @@ This guide provides comprehensive information for developers working on the **Pr
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AGE90/prueba-tecnica-proteccion.git
    cd proteccion
    ```
 

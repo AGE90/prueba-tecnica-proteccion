@@ -20,7 +20,7 @@ To install Poetry, follow the [official installation guide](https://python-poetr
 First, clone the repository and navigate to the project directory:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/AGE90/prueba-tecnica-proteccion.git
 cd proteccion
 ```
 

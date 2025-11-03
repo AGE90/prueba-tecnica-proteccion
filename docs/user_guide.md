@@ -7,22 +7,26 @@ This guide provides detailed instructions for using the **Prueba TÃ©cnica Prot
 ### Installation
 
 1. Install Poetry (if not already installed):
+
    ```bash
    curl -sSL https://install.python-poetry.org | python3 -
    ```
 
 2. Clone the repository:
+
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AGE90/prueba-tecnica-proteccion.git
    cd proteccion
    ```
 
 3. Install dependencies:
+
    ```bash
    poetry install
    ```
 
 4. Activate the Poetry environment:
+
    ```bash
    poetry shell
    ```
@@ -31,7 +35,7 @@ This guide provides detailed instructions for using the **Prueba TÃ©cnica Prot
 
 The project is organized as follows:
 
-```
+```text
 proteccion/
 ├── data/               # Data files
 │   ├── raw/           # Raw data
@@ -58,6 +62,7 @@ proteccion/
 3. Processed data will be saved in `data/processed/`
 
 Example:
+
 ```python
 from proteccion.data import process_data
 
@@ -89,6 +94,7 @@ dvc pull
 3. Track experiments with MLflow
 
 Example:
+
 ```python
 from proteccion.models import train_model
 
@@ -102,6 +108,7 @@ model = train_model(
 #### Experiment Tracking
 
 View MLflow dashboard:
+
 ```bash
 poetry run mlflow ui
 ```
@@ -114,6 +121,7 @@ poetry run mlflow ui
 2. Save figures in `reports/figures/`
 
 Example:
+
 ```python
 from proteccion.visualization import plot_results
 
@@ -127,6 +135,7 @@ plot_results(
 #### Interactive Dashboards
 
 Run Streamlit dashboard:
+
 ```bash
 poetry run streamlit run src/proteccion/visualization/dashboard.py
 ```
@@ -134,12 +143,14 @@ poetry run streamlit run src/proteccion/visualization/dashboard.py
 ### Jupyter Notebooks
 
 1. Start Jupyter Lab:
+
    ```bash
    poetry run jupyter lab
    ```
 
 2. Create new notebooks in `notebooks/`
 3. Use project modules in notebooks:
+
    ```python
    import sys
    sys.path.append('..')
